@@ -37,6 +37,7 @@
     }
   ],
   "family": "pawoo-be-service",
+  "executionRoleArn": "arn:aws:iam::211125583273:role/ecsTaskExecutionRole",
   "networkMode": "bridge",
   "revision": 1,
   "volumes": [],
