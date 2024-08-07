@@ -14,8 +14,8 @@
       ],
       "secrets": [
         {
-          "name": "pawoo-db-secret",
-          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:211125583273:secret:pawoo-db-secret-Vp2d5R"
+          "name": "rds!db-4b3599fa-95a6-4572-8bef-3dc62362c541",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:211125583273:secret:rds!db-4b3599fa-95a6-4572-8bef-3dc62362c541-O0mKrq"
         }
       ],
       "essential": true,
