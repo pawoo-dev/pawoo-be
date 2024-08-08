@@ -16,6 +16,7 @@ type SignUpRequest struct {
 	PhoneNumber string `json:"phone_number"`
 	UserType    string `json:"user_type"`
 	Password    string `json:"password"`
+	CompanyName string `json:"company_name"`
 }
 
 func LoginHandler(c *gin.Context) {
@@ -57,9 +58,10 @@ func SignUpHandler(c *gin.Context) {
 
 	// check if user already exist
 	userDetails = dto.User{
-		Email:    signUpRequest.Email,
-		Name:     signUpRequest.Name,
-		UserType: signUpRequest.UserType,
+		Email:       signUpRequest.Email,
+		Name:        signUpRequest.Name,
+		UserType:    signUpRequest.UserType,
+		CompanyName: signUpRequest.CompanyName,
 	}
 
 	_, err = controller.UserControllerObj.GetUserByEmail(userDetails.Email)
@@ -77,7 +79,20 @@ func SignUpHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, CreateResponse(fmt.Sprintf("%v", err)))
 		return
 	}
+
 	// if successful, write to db
+	// if type == seller, create a company entry
+
+	if userDetails.UserType == "seller" {
+		// create company
+		company, err := controller.CompanyControllerObj.CreateCompany(userDetails.CompanyName)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, CreateResponse(fmt.Sprintf("%v", err)))
+			return
+		}
+		userDetails.CompanyId = company.ID
+	}
+
 	_, err = controller.UserControllerObj.CreateUser(userDetails)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, CreateResponse(fmt.Sprintf("%v", err)))

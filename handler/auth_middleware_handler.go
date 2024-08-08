@@ -33,12 +33,18 @@ func AuthMiddlewareHandler(c *gin.Context) {
 		accessToken = accessToken[len(bearerPrefix):]
 	}
 
-	err := controller.AuthenticationControllerObj.GetUserInfo(accessToken)
+	user, err := controller.AuthenticationControllerObj.GetUserInfo(accessToken)
 	if err != nil {
 		logrus.WithField("err", err).Error("error validating token")
 		c.JSON(http.StatusBadRequest, CreateResponse(fmt.Sprintf("%v", err)))
 		c.Abort()
 		return
+	}
+	for _, attr := range user.UserAttributes {
+		if *attr.Name == "email" {
+			c.Set("email", *attr.Value)
+			break
+		}
 	}
 
 	return

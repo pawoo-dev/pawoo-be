@@ -5,7 +5,7 @@ import (
 )
 
 func (db *dbImpl) CreateUser(user dto.User) (dto.User, error) {
-	result := db.DbController.Create(user)
+	result := db.DbController.Create(&user)
 	return user, result.Error
 }
 

@@ -9,6 +9,16 @@ import (
 type Database interface {
 	CreateUser(user dto.User) (dto.User, error)
 	GetUserByEmail(userEmail string) (dto.User, error)
+
+	CreateService(service dto.Service) (dto.Service, error)
+	GetServiceByCompany(companyId int) ([]dto.Service, error)
+	UpdateService(service dto.Service) error
+	AddOptions(serviceId int, serviceOption []dto.ServiceOptions) ([]dto.ServiceOptions, error)
+	UpdateOptions(serviceOption dto.ServiceOptions) error
+
+	CreateCompany(company dto.Company) (dto.Company, error)
+	GetAllCompany() ([]dto.Company, error)
+	GetCompany(companyName string) (dto.Company, error)
 }
 
 var (
