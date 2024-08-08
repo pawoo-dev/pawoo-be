@@ -41,6 +41,8 @@ func main() {
 	// init controller
 	controller.NewAuthenticationController()
 	controller.NewUserController()
+	controller.NewCompanyController()
+	controller.NewServiceController()
 
 	// init handler
 	registerHandler()
@@ -68,5 +70,20 @@ func registerHandler() {
 	{
 		// authentication handler
 		protectedV1.POST("/logout", handler.LogoutUserHandler)
+
+		// company
+		protectedV1.GET("/company", handler.GetAllCompany)
+
+		// service handler
+		protectedV1.GET("/service", handler.GetServiceHandler)
+
+		// booking handler
+	}
+
+	sellerV2 := protectedV1.Group("/seller")
+	sellerV2.Use(handler.CheckUserIsSellerMiddleware)
+	{
+		// seller functions
+		sellerV2.POST("/service", handler.CreateServiceHandler)
 	}
 }

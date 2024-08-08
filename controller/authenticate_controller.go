@@ -21,7 +21,7 @@ type AuthenticationController interface {
 	ConfirmUser(userInfo dto.ConfirmUser) error
 	ResendChallengeCode(resendRequest dto.SignUpResendRequest) error
 	LogoutUser(accessToken string) error
-	GetUserInfo(accessToken string) error
+	GetUserInfo(accessToken string) (*cognitoidentityprovider.GetUserOutput, error)
 }
 
 type AuthenticationControllerImpl struct {
@@ -93,18 +93,18 @@ func (a AuthenticationControllerImpl) LogoutUser(accessToken string) error {
 }
 
 // GetUserIno
-func (a AuthenticationControllerImpl) GetUserInfo(accessToken string) error {
+func (a AuthenticationControllerImpl) GetUserInfo(accessToken string) (*cognitoidentityprovider.GetUserOutput, error) {
 	input := &cognitoidentityprovider.GetUserInput{
 		AccessToken: aws.String(accessToken),
 	}
 
-	_, err := cognitoClient.GetUser(input)
+	user, err := cognitoClient.GetUser(input)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	logrus.WithField("accessToken", accessToken).Info("User authenticated successfully")
-	return nil
+	return user, nil
 }
 
 func (a AuthenticationControllerImpl) RegisterUser(loginCredential dto.Credentials) error {
