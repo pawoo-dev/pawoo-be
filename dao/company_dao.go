@@ -14,8 +14,8 @@ func (db *dbImpl) GetAllCompany() ([]dto.Company, error) {
 	return companyList, result.Error
 }
 
-func (db *dbImpl) GetCompany(companyName string) (dto.Company, error) {
+func (db *dbImpl) GetCompany(companyId int) (dto.Company, error) {
 	var company dto.Company
-	results := db.DbController.Where("name = ?", companyName).First(&company)
+	results := db.DbController.Where("id = ?", companyId).First(&company)
 	return company, results.Error
 }

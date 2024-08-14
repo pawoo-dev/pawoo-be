@@ -18,7 +18,7 @@ type Database interface {
 
 	CreateCompany(company dto.Company) (dto.Company, error)
 	GetAllCompany() ([]dto.Company, error)
-	GetCompany(companyName string) (dto.Company, error)
+	GetCompany(companyId int) (dto.Company, error)
 }
 
 var (

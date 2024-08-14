@@ -17,6 +17,7 @@ type SignUpRequest struct {
 	UserType    string `json:"user_type"`
 	Password    string `json:"password"`
 	CompanyName string `json:"company_name"`
+	PlaceId     string `json:"place_id"`
 }
 
 func LoginHandler(c *gin.Context) {
@@ -85,7 +86,7 @@ func SignUpHandler(c *gin.Context) {
 
 	if userDetails.UserType == "seller" {
 		// create company
-		company, err := controller.CompanyControllerObj.CreateCompany(userDetails.CompanyName)
+		company, err := controller.CompanyControllerObj.CreateCompany(userDetails.CompanyName, signUpRequest.PlaceId)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, CreateResponse(fmt.Sprintf("%v", err)))
 			return

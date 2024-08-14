@@ -16,6 +16,10 @@
         {
           "name": "rds!db-4b3599fa-95a6-4572-8bef-3dc62362c541",
           "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:211125583273:secret:rds!db-4b3599fa-95a6-4572-8bef-3dc62362c541-O0mKrq"
+        },
+        {
+          "name": "google_api_key",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:211125583273:secret:google_api_key-fuF5oq"
         }
       ],
       "essential": true,
